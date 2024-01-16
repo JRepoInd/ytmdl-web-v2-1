@@ -49,6 +49,26 @@ describe("Mounted SearchBar", () => {
     wrapper.setData({
       $route: {
         query: {
+          query: "https://youtu.be/test"
+        }
+      }
+    });
+
+    expect(wrapper.vm.isYoutubeUrl).toBeTruthy();
+
+    wrapper.setData({
+      $route: {
+        query: {
+          query: "youtu.be/test"
+        }
+      }
+    });
+
+    expect(wrapper.vm.isYoutubeUrl).toBeTruthy();
+
+    wrapper.setData({
+      $route: {
+        query: {
           query: "https://deepjyoti30.dev"
         }
       }
@@ -61,6 +81,8 @@ describe("Mounted SearchBar", () => {
     expect(wrapper.vm.extractVideoId("https://youtube.com/watch?v=test")).toBe(
       "test"
     );
+    expect(wrapper.vm.extractVideoId("https://youtu.be/test")).toBe("test");
+    expect(wrapper.vm.extractVideoId("youtu.be/test")).toBe("test");
   });
 
   it("should send search request for query", () => {
@@ -106,7 +128,7 @@ describe("Mounted SearchBar", () => {
     wrapper.vm.sendSearchRequest();
 
     expect(wrapper.emitted().search[1][0]).toStrictEqual({
-      song: "https://youtube.com/watch?v=test",
+      youtubeUrl: "https://youtube.com/watch?v=test",
       isYoutube: true,
       videoId: "test"
     });

@@ -1,13 +1,29 @@
 <template>
   <div
-    class="manual--each__container py-4 w-full md:flex items-center justify-items-start"
+    class="
+      manual--each__container
+      py-4
+      w-full
+      md:flex
+      items-center
+      justify-items-start
+    "
   >
     <div class="text--content md:w-2/5 w-full">
       <h3 class="text-xl font-medium dark:text-white">
         {{ getName }}
         <span
           v-if="getIsRequired"
-          class="required px-2 rounded-xl py-0.5 text-sm font-normal ml-5 dark:text-black"
+          class="
+            required
+            px-2
+            rounded-xl
+            py-0.5
+            text-sm
+            font-normal
+            ml-5
+            dark:text-black
+          "
           >Required</span
         >
       </h3>
@@ -30,16 +46,31 @@ export default {
   name: "ManualEach",
   props: {
     option: {
-      type: Object
+      type: Object,
     },
     index: {
-      type: Number
-    }
+      type: Number,
+    },
+    enableNormalize: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
-      value: ""
+      value: "",
     };
+  },
+  methods: {
+    normalizeSpecialChars: function (value) {
+      /**
+       * Normalize special characters like `/` in the passed
+       * value by replacing them with a -
+       */
+      if (!this.enableNormalize) return value;
+
+      return value.replace(/\/|;/g, "-");
+    },
   },
   computed: {
     getName() {
@@ -59,17 +90,20 @@ export default {
         return this.value;
       },
       set(value) {
+        // Normalize the value
+        value = this.normalizeSpecialChars(value);
+
         this.value = value;
         const valid = this.option.skippingAllowed ? true : Boolean(this.value);
 
         this.$parent.enteredData[this.option.attrName] = {
           value: valid ? this.value : this.option.default,
-          valid: valid
+          valid: valid,
         };
         this.$parent.validateDataEntered();
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 

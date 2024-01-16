@@ -38,6 +38,22 @@ const defaultSettings = [
       "Ask the user each time if they'd like to make the selected format the default one and thus skip the format page next time.",
     options: ["on", "off"],
     default: "on"
+  },
+  {
+    name: "direct-manual-meta",
+    title: "Directly switch to manual metadata mode",
+    description:
+      "If enabled, after the song is selected on the search screen, it will go directly to the manual metadata mode when the user has to enter the metadata for the song manually.",
+    options: ["on", "off"],
+    default: "off"
+  },
+  {
+    name: "title-from-url",
+    title: "Extract the title from Youtube URL",
+    description:
+      "If enabled, the title will be extracted from the passed YouTube URL. This will only be done if the URL is a valid YouTube URL.",
+    options: ["on", "off"],
+    default: "on"
   }
 ];
 
